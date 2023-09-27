@@ -2,7 +2,7 @@
 
 A collection of ideas for slideshow animations.
 
-![Slideshow Animations](https://tympanus.net/codrops/wp-content/uploads/2023/09/slideshowanimations.jpg)
+![Slideshow Animations](https://tympanus.net/codrops/wp-content/uploads/2023/09/slideshowanimations-1.jpg)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=73708)
 
