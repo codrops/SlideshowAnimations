@@ -2,7 +2,7 @@
 
 A collection of ideas for slideshow animations.
 
-![Slideshow Animations](https://generative-placeholders.glitch.me/image?width=800&height=600")
+![Slideshow Animations](https://tympanus.net/codrops/wp-content/uploads/2023/09/slideshowanimations.jpg)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=73708)
 
