@@ -8,20 +8,19 @@ const PREV = -1;
  * @export
  */
 export class Slideshow {
-
   /**
-     * Holds references to relevant DOM elements.
-     * @type {Object}
-     */
+   * Holds references to relevant DOM elements.
+   * @type {Object}
+   */
   DOM = {
-    el: null,            // Main slideshow container
-    slides: null,        // Individual slides
-    slidesInner: null    // Inner content of slides (usually images)
+    el: null, // Main slideshow container
+    slides: null, // Individual slides
+    slidesInner: null, // Inner content of slides (usually images)
   };
   /**
-     * Index of the current slide being displayed.
-     * @type {number}
-     */
+   * Index of the current slide being displayed.
+   * @type {number}
+   */
   current = 0;
   /**
    * Total number of slides.
@@ -29,22 +28,24 @@ export class Slideshow {
    */
   slidesTotal = 0;
 
-  /**  
+  /**
    * Flag to indicate if an animation is running.
    * @type {boolean}
    */
   isAnimating = false;
 
   /**
-     * Slideshow constructor.
-     * Initializes the slideshow and sets up the DOM elements.
-     * @param {HTMLElement} DOM_el - The main element holding all the slides.
-     */
+   * Slideshow constructor.
+   * Initializes the slideshow and sets up the DOM elements.
+   * @param {HTMLElement} DOM_el - The main element holding all the slides.
+   */
   constructor(DOM_el) {
     // Initialize DOM elements
     this.DOM.el = DOM_el;
     this.DOM.slides = [...this.DOM.el.querySelectorAll('.slide')];
-    this.DOM.slidesInner = this.DOM.slides.map(item => item.querySelector('.slide__img'));
+    this.DOM.slidesInner = this.DOM.slides.map((item) =>
+      item.querySelector('.slide__img')
+    );
 
     gsap.set(this.DOM.el, { perspective: 1000 });
 
@@ -56,9 +57,9 @@ export class Slideshow {
   }
 
   /**
-     * Navigate to the next slide.
-     * @returns {void}
-     */
+   * Navigate to the next slide.
+   * @returns {void}
+   */
   next() {
     this.navigate(NEXT);
   }
@@ -83,9 +84,14 @@ export class Slideshow {
 
     // Update the current slide index based on direction
     const previous = this.current;
-    this.current = direction === 1 ?
-      this.current < this.slidesTotal - 1 ? ++this.current : 0 :
-      this.current > 0 ? --this.current : this.slidesTotal - 1
+    this.current =
+      direction === 1
+        ? this.current < this.slidesTotal - 1
+          ? ++this.current
+          : 0
+        : this.current > 0
+        ? --this.current
+        : this.slidesTotal - 1;
 
     // Get the current and upcoming slides and their inner elements
     const currentSlide = this.DOM.slides[previous];
@@ -108,34 +114,46 @@ export class Slideshow {
         onComplete: () => {
           // Remove class from the previous slide to unmark it as current
           this.DOM.slides[previous].classList.remove('slide--current');
-          gsap.set(upcomingSlide, { zIndex: 1 })
+          gsap.set(upcomingSlide, { zIndex: 1 });
           // Reset animation flag
           this.isAnimating = false;
-        }
+        },
       })
       // Defining animation steps
       .addLabel('start', 0)
-      .to(currentSlide, {
-        yPercent: -direction * 100,
-      }, 'start')
-      .fromTo(upcomingSlide, {
-        yPercent: 0,
-        autoAlpha: 0,
-        rotationX: 140,
-        scale: 0.1,
-        z: -1000
-      }, {
-        autoAlpha: 1,
-        rotationX: 0,
-        z: 0,
-        scale: 1,
-      }, 'start+=0.1')
-      .fromTo(upcomingInner, {
-        scale: 1.8
-      }, {
-        scale: 1,
-      }, 'start+=0.17')
-
+      .to(
+        currentSlide,
+        {
+          yPercent: -direction * 100,
+        },
+        'start'
+      )
+      .fromTo(
+        upcomingSlide,
+        {
+          yPercent: 0,
+          autoAlpha: 0,
+          rotationX: 140,
+          scale: 0.1,
+          z: -1000,
+        },
+        {
+          autoAlpha: 1,
+          rotationX: 0,
+          z: 0,
+          scale: 1,
+        },
+        'start+=0.1'
+      )
+      .fromTo(
+        upcomingInner,
+        {
+          scale: 1.8,
+        },
+        {
+          scale: 1,
+        },
+        'start+=0.17'
+      );
   }
-
 }

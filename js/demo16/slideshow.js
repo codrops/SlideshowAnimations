@@ -8,22 +8,21 @@ const PREV = -1;
  * @export
  */
 export class Slideshow {
-
   /**
-     * Holds references to relevant DOM elements.
-     * @type {Object}
-     */
+   * Holds references to relevant DOM elements.
+   * @type {Object}
+   */
   DOM = {
-    el: null,            // Main slideshow container
-    slides: null,        // Individual slides
-    slidesInner: null,   // Inner content of slides (usually images)
+    el: null, // Main slideshow container
+    slides: null, // Individual slides
+    slidesInner: null, // Inner content of slides (usually images)
 
-    deco: null,			 // Empty deco element between the slides
+    deco: null, // Empty deco element between the slides
   };
   /**
-     * Index of the current slide being displayed.
-     * @type {number}
-     */
+   * Index of the current slide being displayed.
+   * @type {number}
+   */
   current = 0;
   /**
    * Total number of slides.
@@ -31,22 +30,24 @@ export class Slideshow {
    */
   slidesTotal = 0;
 
-  /**  
+  /**
    * Flag to indicate if an animation is running.
    * @type {boolean}
    */
   isAnimating = false;
 
   /**
-     * Slideshow constructor.
-     * Initializes the slideshow and sets up the DOM elements.
-     * @param {HTMLElement} DOM_el - The main element holding all the slides.
-     */
+   * Slideshow constructor.
+   * Initializes the slideshow and sets up the DOM elements.
+   * @param {HTMLElement} DOM_el - The main element holding all the slides.
+   */
   constructor(DOM_el) {
     // Initialize DOM elements
     this.DOM.el = DOM_el;
     this.DOM.slides = [...this.DOM.el.querySelectorAll('.slide')];
-    this.DOM.slidesInner = this.DOM.slides.map(item => item.querySelector('.slide__img'));
+    this.DOM.slidesInner = this.DOM.slides.map((item) =>
+      item.querySelector('.slide__img')
+    );
 
     // Set initial slide as current
     this.DOM.slides[this.current].classList.add('slide--current');
@@ -59,9 +60,9 @@ export class Slideshow {
   }
 
   /**
-     * Navigate to the next slide.
-     * @returns {void}
-     */
+   * Navigate to the next slide.
+   * @returns {void}
+   */
   next() {
     this.navigate(NEXT);
   }
@@ -86,9 +87,14 @@ export class Slideshow {
 
     // Update the current slide index based on direction
     const previous = this.current;
-    this.current = direction === 1 ?
-      this.current < this.slidesTotal - 1 ? ++this.current : 0 :
-      this.current > 0 ? --this.current : this.slidesTotal - 1
+    this.current =
+      direction === 1
+        ? this.current < this.slidesTotal - 1
+          ? ++this.current
+          : 0
+        : this.current > 0
+        ? --this.current
+        : this.slidesTotal - 1;
 
     // Get the current and upcoming slides and their inner elements
     const currentSlide = this.DOM.slides[previous];
@@ -101,61 +107,75 @@ export class Slideshow {
       .timeline({
         defaults: {
           duration: 0.8,
-          ease: 'power4.inOut'
+          ease: 'power4.inOut',
         },
         onComplete: () => {
           // Reset animation flag
           this.isAnimating = false;
-        }
+        },
       })
       // Defining animation steps
       .addLabel('start', 0);
 
     [...this.DOM.deco].forEach((_, pos, arr) => {
       const deco = arr[arr.length - 1 - pos];
-      this.tl.fromTo(deco, {
-        xPercent: _ => pos % 2 === 1 ? -100 : 100,
-        autoAlpha: 1
-      }, {
-        xPercent: _ => pos % 2 === 1 ? -50 : 50,
-        onComplete: () => {
-          if (pos === arr.length - 1) {
-            // Remove class from the previous slide to unmark it as current
-            this.DOM.slides[previous].classList.remove('slide--current');
-            // Add class to the upcoming slide to mark it as current
-            this.DOM.slides[this.current].classList.add('slide--current');
-          }
-        }
-      }, `start+=${Math.floor((arr.length - 1 - pos) / 2) * 0.14}`);
+      this.tl.fromTo(
+        deco,
+        {
+          xPercent: (_) => (pos % 2 === 1 ? -100 : 100),
+          autoAlpha: 1,
+        },
+        {
+          xPercent: (_) => (pos % 2 === 1 ? -50 : 50),
+          onComplete: () => {
+            if (pos === arr.length - 1) {
+              // Remove class from the previous slide to unmark it as current
+              this.DOM.slides[previous].classList.remove('slide--current');
+              // Add class to the upcoming slide to mark it as current
+              this.DOM.slides[this.current].classList.add('slide--current');
+            }
+          },
+        },
+        `start+=${Math.floor((arr.length - 1 - pos) / 2) * 0.14}`
+      );
       if (!pos) {
         this.tl.addLabel('middle', '>');
       }
     });
 
-    this.tl
-      .to(currentSlide, {
+    this.tl.to(
+      currentSlide,
+      {
         ease: 'power4.in',
         scale: 0.1,
-        onComplete: () => gsap.set(currentSlide, { scale: 1 })
-      }, 'start');
+        onComplete: () => gsap.set(currentSlide, { scale: 1 }),
+      },
+      'start'
+    );
 
     [...this.DOM.deco].forEach((_, pos, arr) => {
       const deco = arr[arr.length - 1 - pos];
 
-      this.tl.to(deco, {
-        xPercent: _ => pos % 2 === 1 ? -100 : 100,
-      }, `middle+=${Math.floor((pos) / 2) * 0.12}`)
+      this.tl.to(
+        deco,
+        {
+          xPercent: (_) => (pos % 2 === 1 ? -100 : 100),
+        },
+        `middle+=${Math.floor(pos / 2) * 0.12}`
+      );
     });
 
-    this.tl
-      .fromTo(upcomingSlide, {
-        scale: 0.6
-      }, {
+    this.tl.fromTo(
+      upcomingSlide,
+      {
+        scale: 0.6,
+      },
+      {
         duration: 1.1,
         ease: 'expo',
-        scale: 1
-      }, '>-0.8');
-
+        scale: 1,
+      },
+      '>-0.8'
+    );
   }
-
 }
