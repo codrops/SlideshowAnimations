@@ -8,12 +8,12 @@ document.querySelector('.slides-nav__item--prev').addEventListener('click', () =
 document.querySelector('.slides-nav__item--next').addEventListener('click', () => slideshow.next());
 // Initialize the GSAP Observer plugin
 Observer.create({
-    type: 'wheel,touch,pointer',
-    onDown: () => slideshow.prev(),
-    onUp: () => slideshow.next(),
-    // invert the mouse wheel delta
-    wheelSpeed: -1,
-    tolerance: 10
+  type: 'wheel,touch,pointer',
+  onDown: () => slideshow.prev(),
+  onUp: () => slideshow.next(),
+  // invert the mouse wheel delta
+  wheelSpeed: -1,
+  tolerance: 10
 });
 
 // Preload all images. Once all images are preloaded, remove the 'loading' class from the body.
