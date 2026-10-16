@@ -1,3 +1,5 @@
+import { prefersReducedMotion, crossfade } from '../utils.js'; // Utility functions
+
 /** Direction constants */
 const NEXT = 1;
 const PREV = -1;
@@ -90,6 +92,17 @@ export class Slideshow {
     const currentInner = this.DOM.slidesInner[previous];
     const upcomingSlide = this.DOM.slides[this.current];
     const upcomingInner = this.DOM.slidesInner[this.current];
+
+    // With reduced motion, just crossfade between the slides
+    if (prefersReducedMotion.matches) {
+      upcomingSlide.classList.add('slide--current');
+      crossfade(currentSlide, upcomingSlide, () => {
+        currentSlide.classList.remove('slide--current');
+        // Reset animation flag
+        this.isAnimating = false;
+      });
+      return;
+    }
 
     // Animation sequence using GSAP
     gsap

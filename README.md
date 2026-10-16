@@ -6,7 +6,7 @@ A collection of ideas for slideshow animations.
 
 [Article on Codrops](https://tympanus.net/codrops/?p=73708)
 
-[Demo](http://tympanus.net/Development/SlideshowAnimations/)
+[Demo](https://tympanus.net/Development/SlideshowAnimations/)
 
 ## Installation
 
@@ -15,17 +15,14 @@ Run this demo on a [local server](https://developer.mozilla.org/en-US/docs/Learn
 ## Credits
 
 - Images generated with [Midjourney](https://midjourney.com)
+- Animation by [GSAP](https://gsap.com)
+- WebGL variations (17–22) made with [three.js](https://threejs.org)
+- Font Anonymous Pro via [Adobe Fonts](https://fonts.adobe.com)
 
 ## Misc
 
-Follow Codrops: [Twitter](http://www.twitter.com/codrops), [Facebook](http://www.facebook.com/codrops), [GitHub](https://github.com/codrops), [Instagram](https://www.instagram.com/codropsss/)
+Follow Codrops: [X](http://www.x.com/codrops), [LinkedIn](https://www.linkedin.com/company/codrops/), [Instagram](https://www.instagram.com/codropsss/), [Facebook](https://www.facebook.com/codrops), [GitHub](https://github.com/codrops)
 
 ## License
+
 [MIT](LICENSE)
-
-Made with :blue_heart:  by [Codrops](http://www.codrops.com)
-
-
-
-
-
